@@ -6,7 +6,7 @@ const products = [
     category: "sneakers",
     price: 3800,
     sizes: ["EU 40", "EU 41", "EU 42", "EU 43", "EU 44"],
-    image: "https://placehold.co/400x300?text=Air+Retro+Sneakers"
+    images: ["images/air retro sneakers 1.webp", "images/air retro sneakers 2.webp", "images/air retro sneakers 3.jpeg"]
   },
   {
     id: 2,
@@ -14,7 +14,7 @@ const products = [
     category: "sneakers",
     price: 3200,
     sizes: ["EU 38", "EU 39", "EU 40", "EU 41", "EU 42"],
-    image: "https://placehold.co/400x300?text=Court+Trainers"
+    images: ["images/classic white court trainers 1.webp", "images/classic white court trainers 2.jpeg"]
   },
   {
     id: 3,
@@ -22,7 +22,7 @@ const products = [
     category: "clothing",
     price: 2200,
     sizes: ["S", "M", "L", "XL"],
-    image: "https://placehold.co/400x300?text=Graphic+Hoodie"
+    images: ["images/graphic hoodie 1.webp", "images/graphic hoodie 2.webp"]
   },
   {
     id: 4,
@@ -30,7 +30,7 @@ const products = [
     category: "clothing",
     price: 1850,
     sizes: ["M", "L", "XL"],
-    image: "https://placehold.co/400x300?text=Cargo+Joggers"
+    images: ["images/relaxed cargo joggers 1.webp", "images/relaxed cargo joggers 2.webp"]
   },
   {
     id: 5,
@@ -38,7 +38,7 @@ const products = [
     category: "kitchen",
     price: 1650,
     sizes: [],
-    image: "https://placehold.co/400x300?text=Utensil+Set"
+    images: ["images/non-stock silicone utensil 1.webp", "images/non-stock silicone utensil 2.webp"]
   },
   {
     id: 6,
@@ -46,7 +46,7 @@ const products = [
     category: "kitchen",
     price: 2400,
     sizes: [],
-    image: "https://placehold.co/400x300?text=Chef+Knife+Set"
+    images: ["images/stain less still chef knife.webp"]
   },
   {
     id: 7,
@@ -54,7 +54,7 @@ const products = [
     category: "home",
     price: 2900,
     sizes: ["150x200 cm", "200x300 cm"],
-    image: "https://placehold.co/400x300?text=Living+Room+Mat"
+    images: ["images/plus anti-slipliving room mat.jpeg"]
   },
   {
     id: 8,
@@ -62,7 +62,7 @@ const products = [
     category: "home",
     price: 950,
     sizes: [],
-    image: "https://placehold.co/400x300?text=Bathroom+Mat"
+    images: ["images/absorbent bathroom door mat set 1.jpeg", "images/absorbent bathroom door mat set 2.jpeg"]
   }
 ];
 
@@ -100,7 +100,16 @@ function renderProducts() {
 
       return `
         <div class="card">
-          <img src="${item.image}" alt="${item.name}" loading="lazy" />
+          <div class="product-gallery">
+            <img id="product-image-${item.id}" src="${item.images[0]}" alt="${item.name}" loading="lazy" />
+            <div class="product-thumbnails">
+              ${item.images.map((src, index) => `
+                <button type="button" class="product-thumb" onclick="setProductImage(${item.id}, ${index})" aria-label="View image ${index + 1}">
+                  <img src="${src}" alt="${item.name} view ${index + 1}" loading="lazy" />
+                </button>
+              `).join("")}
+            </div>
+          </div>
           <div class="card-body">
             <span class="badge">${item.category}</span>
             <h3 class="card-title">${item.name}</h3>
@@ -112,6 +121,16 @@ function renderProducts() {
       `;
     })
     .join("");
+}
+
+
+// Switch between product photos
+function setProductImage(productId, imageIndex) {
+  const product = products.find((p) => p.id === productId);
+  if (!product || !product.images[imageIndex]) return;
+
+  const mainImage = document.getElementById(`product-image-${productId}`);
+  if (mainImage) mainImage.src = product.images[imageIndex];
 }
 
 // Add Item to Cart
