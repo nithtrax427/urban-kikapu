@@ -4,93 +4,88 @@
 // ============================================
 
 // PRODUCT INVENTORY
+
+
 const products = [
   {
     id: 1,
     name: "Air Retro Street Sneakers",
     category: "sneakers",
     price: 3800,
+    description: "Stylish everyday sneakers designed for comfort and streetwear fashion.",
+    availability: "In Stock",
     sizes: ["EU 40", "EU 41", "EU 42", "EU 43", "EU 44"],
-    images: [
-      "images/air retro sneakers 1.webp",
-      "images/air retro sneakers 2.webp",
-      "images/air retro sneakers 3.jpeg"
-    ]
+    images: ["images/air retro sneakers 1.webp", "images/air retro sneakers 2.webp", "images/air retro sneakers 3.jpeg"]
   },
   {
     id: 2,
     name: "Classic White Court Trainers",
     category: "sneakers",
     price: 3200,
+    description: "Clean white trainers for casual outfits and everyday wear.",
+    availability: "In Stock",
     sizes: ["EU 38", "EU 39", "EU 40", "EU 41", "EU 42"],
-    images: [
-      "images/classic white court trainers 1.webp",
-      "images/classic white court trainers 2.jpeg"
-    ]
+    images: ["images/classic white court trainers 1.webp", "images/classic white court trainers 2.jpeg"]
   },
   {
     id: 3,
     name: "Heavyweight Graphic Hoodie",
     category: "clothing",
     price: 2200,
+    description: "A comfortable graphic hoodie for relaxed everyday styling.",
+    availability: "In Stock",
     sizes: ["S", "M", "L", "XL"],
-    images: [
-      "images/graphic hoodie 1.webp",
-      "images/graphic hoodie 2.webp"
-    ]
+    images: ["images/graphic hoodie 1.webp", "images/graphic hoodie 2.webp"]
   },
   {
     id: 4,
     name: "Relaxed Cargo Joggers",
     category: "clothing",
     price: 1850,
+    description: "Relaxed-fit cargo joggers combining comfort and practical style.",
+    availability: "In Stock",
     sizes: ["M", "L", "XL"],
-    images: [
-      "images/relaxed cargo joggers 1.webp",
-      "images/relaxed cargo joggers 2.webp"
-    ]
+    images: ["images/relaxed cargo joggers 1.webp", "images/relaxed cargo joggers 2.webp"]
   },
   {
     id: 5,
     name: "Non-Stick Silicone Utensil Set (12 Pcs)",
     category: "kitchen",
     price: 1650,
+    description: "A versatile 12-piece silicone utensil set for everyday kitchen tasks.",
+    availability: "In Stock",
     sizes: [],
-    images: [
-      "images/non-stock silicone utensil 1.webp",
-      "images/non-stock silicone utensil 2.webp"
-    ]
+    images: ["images/non-stock silicone utensil 1.webp", "images/non-stock silicone utensil 2.webp"]
   },
   {
     id: 6,
     name: "Stainless Steel Chef Knife Set",
     category: "kitchen",
     price: 2400,
+    description: "A practical stainless steel knife set for everyday food preparation.",
+    availability: "In Stock",
     sizes: [],
-    images: [
-      "images/stain less still chef knife.webp"
-    ]
+    images: ["images/stain less still chef knife.webp"]
   },
   {
     id: 7,
     name: "Plush Anti-Slip Living Room Mat",
     category: "home",
     price: 2900,
+    description: "A soft living room mat designed to add comfort to your home.",
+    availability: "In Stock",
     sizes: ["150x200 cm", "200x300 cm"],
-    images: [
-      "images/plus anti-slipliving room mat.jpeg"
-    ]
+    images: ["images/plus anti-slipliving room mat.jpeg"]
   },
   {
     id: 8,
     name: "Absorbent Bathroom Door Mat Set",
     category: "home",
     price: 950,
+    description: "An absorbent bathroom mat set for a more comfortable bathroom.",
+    availability: "In Stock",
     sizes: [],
-    images: [
-      "images/absorbent bathroom door mat set 1.jpeg",
-      "images/absorbent bathroom door mat set 2.jpeg"
-    ]
+    images: ["images/absorbent bathroom door mat set 1.jpeg", "images/absorbent bathroom door mat set 2.jpeg"]
   }
 ];
 
@@ -151,7 +146,8 @@ function renderProducts() {
       item.category === activeCategory;
 
     const matchesSearch =
-      item.name.toLowerCase().includes(query);
+      item.name.toLowerCase().includes(query) ||
+      (item.description || "").toLowerCase().includes(query);
 
     return matchesCategory && matchesSearch;
   });
@@ -166,7 +162,7 @@ function renderProducts() {
   }
 
   productGrid.innerHTML = filtered.map(item => {
-    const sizeDropdown = item.sizes.length > 0
+    const sizeDropdown = item.sizes && item.sizes.length > 0
       ? `
         <select class="size-select" id="size-${item.id}">
           ${item.sizes.map(size => `
@@ -180,7 +176,6 @@ function renderProducts() {
       <div class="card">
 
         <div class="product-gallery">
-
           <img
             id="product-image-${item.id}"
             src="${item.images[0]}"
@@ -204,7 +199,6 @@ function renderProducts() {
               </button>
             `).join("")}
           </div>
-
         </div>
 
         <div class="card-body">
@@ -212,6 +206,14 @@ function renderProducts() {
           <span class="badge">${item.category}</span>
 
           <h3 class="card-title">${item.name}</h3>
+
+          <p class="product-description">
+            ${item.description || ""}
+          </p>
+
+          <p class="stock-status">
+            ${item.availability || "Availability not confirmed"}
+          </p>
 
           <p class="card-price">
             KES ${item.price.toLocaleString()}
@@ -231,7 +233,6 @@ function renderProducts() {
     `;
   }).join("");
 }
-
 // ============================================
 // PRODUCT IMAGE GALLERY
 // ============================================
